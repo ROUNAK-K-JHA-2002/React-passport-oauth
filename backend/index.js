@@ -3,7 +3,8 @@ const passport = require('passport')
 require('dotenv').config
 const cors = require('cors')
 const cookieSession = require('cookie-session');
-
+const passportStrategy = require('./passport')
+const authRoutes = require('./routes/auth')
 const app = express();
 
 app.use(
@@ -26,6 +27,8 @@ app.use(
 )
 
 const port = process.env.PORT || 5000
+
+app.get('/auth',authRoutes)
 
 app.listen(port,()=>{
     console.log(`Server is running on http://localhost:${port}`)
