@@ -12,7 +12,7 @@ function Home(userDetails) {
   return (
   <>
    <Container>
-    <h1 className='text-center'>Login Page</h1>
+    <h1 className='text-center'>Home Page</h1>
    <div>
    <img src={user.picture} alt="profile"/>
     <h6>{user.name}</h6>

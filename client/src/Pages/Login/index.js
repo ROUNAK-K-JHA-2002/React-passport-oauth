@@ -11,7 +11,7 @@ function Login() {
   return (
   <>
    <Container>
-    <h1 className='text-center'>Home Page</h1>
+    <h1 className='text-center'>Login Page</h1>
     <button onClick={GoogleAuth} className='btn btn-outline-primary'>Login with google </button>
    </Container>
   </>

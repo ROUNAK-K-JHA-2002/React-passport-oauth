@@ -2,16 +2,16 @@ const express = require('express');
 const passport = require('passport')
 require('dotenv').config
 const cors = require('cors')
-const cookieSession = require('cookie-session');
 const passportStrategy = require('./passport')
-const authRoutes = require('./routes/auth')
+const Session = require('express-session');
 const app = express();
 
 app.use(
-    cookieSession({
-        name : 'session',
-        keys : ['secretKeys'],
-        maxAge : 24*60*60*100
+    Session({
+        secret: 'somethingsecretgoeshere',
+   resave: false,
+   saveUninitialized: true,
+   cookie: { secure: true }
     })
 )
 
@@ -28,8 +28,47 @@ app.use(
 
 const port = process.env.PORT || 5000
 
-app.get('/auth',authRoutes)
+
 
 app.listen(port,()=>{
     console.log(`Server is running on http://localhost:${port}`)
+})
+
+
+app.get("/auth/google/callback",passport.authenticate("google",{
+    successRedirect : process.env.CLIENTURL,
+    failureRedirect : '/login/failed'
+}))
+
+app.get("/auth/login/failed",(req,res)=>{
+   res.sendStatus(401).json({
+            error :true,
+            message : "Login Failure"
+        });
+})
+
+app.get("/auth/login/success",(req,res)=>{
+    const user = passportStrategy.user
+    if(user != null){
+        console.log(user)
+      res.sendStatus(200).json({
+        error:false,
+        message: "sucessfully logged in",
+        user :user,
+      })
+    }
+    else{
+        res.sendStatus(403).json({
+            error :true,
+            message : "Unauthorized"
+        });
+    }
+})
+
+app.get("/auth/google",passport.authenticate("google",['profile','email']))
+
+
+app.get("/auth/logout",(req,res)=>{
+    req.logout();
+    res.redirect(process.env.CLIENTURL)
 })

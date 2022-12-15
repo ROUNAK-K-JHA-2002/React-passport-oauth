@@ -9,6 +9,7 @@ passport.use(new GoogleStrategy({
     scope : ['profile','email']
 },function(accessToken,refreshToken,profile,callback){
     callback(null,profile);
+    module.exports.user = profile;
 }))
 
 passport.serializeUser((user,done)=>{
