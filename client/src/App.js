@@ -7,17 +7,18 @@ import axios from 'axios';
 import Home from './Pages/Home'
 import Login from './Pages/Login'
 
-
 function App() { 
-
- const [user, setuser] = useState(null)
-
+  const [user, setuser] = useState(null)
+  
  const getUser = async()=>{
   try {
-    const url = `${process.env.REACT_APP_API_URL}/auth/login/success`
-    const data = await axios.get(url,{ withCredentials: true})
- setuser(data.user.json)
-    console.log(data.user.json)
+    const url = `${process.env.REACT_APP_API_URL}/auth/login/success`;
+   await axios.get(url,{ withCredentials: true}).then((response)=>{
+    const res = response.data._json
+    console.log(res)
+      setuser(res)
+    })
+
   } catch (error) {
     console.log(error);
   }
@@ -25,6 +26,7 @@ function App() {
  useEffect(() => {
 		getUser();
 	}, []);
+
 
   return (
     <Container>

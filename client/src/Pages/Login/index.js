@@ -12,7 +12,7 @@ function Login() {
   <>
    <Container>
     <h1 className='text-center'>Login Page</h1>
-    <button onClick={GoogleAuth} className='btn btn-outline-primary'>Login with google </button>
+    <button onClick={GoogleAuth} className='btn btn-outline-primary'> Login with google </button>
    </Container>
   </>
   )
