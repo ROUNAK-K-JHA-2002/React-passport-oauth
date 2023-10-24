@@ -1,0 +1,30 @@
+## for keeping artifacts
+
+
+name: artifact-download
+
+on: 
+    push: 
+        branches:
+            - main
+
+jobs: 
+    build: 
+        name: Build artifact
+        runs-on: ubuntu-latest
+        steps: 
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+            - name: Set up Nodejs
+              uses: actions/setup-node@v3
+              with:
+                node-version: 18
+            - name: Installing Dependencies
+              run: npm install
+            - name: Build Application
+              run : npm run build
+            - name: Upload Artifacts
+              uses: actions/upload-artifact@v3
+              with:
+                name: BUildFIle
+                path: /build
